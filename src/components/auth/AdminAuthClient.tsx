@@ -59,13 +59,13 @@ export function AdminAuthClient({ mode }: AuthClientProps) {
         await updateProfile(userCredential.user, { displayName: name });
         // In a real app, you'd trigger a cloud function here to set custom claims for the admin role.
         toast({ title: "Admin Registration successful!", description: "Welcome, Admin." });
-        router.push("/profile"); // Or an admin dashboard
+        router.push("/admin/dashboard");
       } else {
         const { email, password } = data as z.infer<typeof loginSchema>;
         await signInWithEmailAndPassword(auth, email, password);
         // Here, you would typically check for an admin custom claim before proceeding.
         toast({ title: "Admin Login successful!", description: "Welcome back, Admin." });
-        router.push("/profile"); // Or an admin dashboard
+        router.push("/admin/dashboard");
       }
     } catch (error: any) {
       console.error(error);
