@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "ar-galle-fort",
+      "description": "A street inside Galle Fort for the AR background",
+      "imageUrl": "https://images.unsplash.com/photo-1654561773591-57b9413c45c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnYWxsZSUyMGZvcnR8ZW58MHx8fHwxNzY4NDg5MTI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "galle fort"
+    },
+    {
+      "id": "map-sri-lanka",
+      "description": "A stylized map of Sri Lanka",
+      "imageUrl": "https://images.unsplash.com/photo-1744290754745-14b819ead942?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzcmklMjBsYW5rYSUyMG1hcHxlbnwwfHx8fDE3Njg0ODkxMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sri lanka map"
+    },
+    {
+      "id": "rec-sigiriya",
+      "description": "Sigiriya Rock Fortress",
+      "imageUrl": "https://images.unsplash.com/photo-1580794749460-76f97b7180d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzaWdpcml5YSUyMHJvY2t8ZW58MHx8fHwxNzY4NDg5MTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sigiriya rock"
+    },
+    {
+      "id": "rec-ella-train",
+      "description": "Train journey in Ella",
+      "imageUrl": "https://images.unsplash.com/photo-1704797390917-35714a88194b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbGxhJTIwdHJhaW58ZW58MHx8fHwxNzY4NDg5MTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ella train"
+    },
+    {
+      "id": "rec-tea-plantation",
+      "description": "Lush green tea plantation",
+      "imageUrl": "https://images.unsplash.com/photo-1602943543714-cf535b048440?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0ZWElMjBwbGFudGF0aW9ufGVufDB8fHx8MTc2ODQ1NDIwOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tea plantation"
+    },
+    {
+      "id": "rec-mirissa-beach",
+      "description": "Palm-fringed beach in Mirissa",
+      "imageUrl": "https://images.unsplash.com/photo-1589534345827-e619f9b2dd2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtaXJpc3NhJTIwYmVhY2h8ZW58MHx8fHwxNzY4NDg5MTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mirissa beach"
+    },
+    {
+      "id": "rec-kandyan-dance",
+      "description": "Traditional Kandyan dancers",
+      "imageUrl": "https://images.unsplash.com/photo-1640745685024-af4663065ce3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxrYW5keWFuJTIwZGFuY2V8ZW58MHx8fHwxNzY4NDg5MTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "kandyan dance"
+    },
+    {
+      "id": "rec-temple-of-tooth",
+      "description": "The Temple of the Sacred Tooth Relic in Kandy",
+      "imageUrl": "https://images.unsplash.com/photo-1665849050430-5e8c16bacf7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrYW5keSUyMHRlbXBsZXxlbnwwfHx8fDE3Njg0ODkxMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "kandy temple"
+    },
+    {
+      "id": "ar-temple",
+      "description": "An ancient temple ruin for the AR background",
+      "imageUrl": "https://images.unsplash.com/photo-1626088415054-0d083cae2cfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHJ1aW58ZW58MHx8fHwxNzY4NDg5MTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient ruin"
+    }
+  ]
 }
