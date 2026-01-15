@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LoaderCircle, Navigation } from "lucide-react";
+import { LoaderCircle, Navigation, Compass } from "lucide-react";
 import { aiPoweredRecommendations, type AiPoweredRecommendationsOutput } from "@/ai/flows/ai-powered-recommendations";
 import { useToast } from "@/hooks/use-toast";
 import { RecommendationCard } from "./RecommendationCard";
