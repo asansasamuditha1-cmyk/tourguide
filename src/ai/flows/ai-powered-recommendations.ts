@@ -27,7 +27,7 @@ const AiPoweredRecommendationsOutputSchema = z.object({
       description: z.string().describe('A short description of the recommendation.'),
       address: z.string().describe('The address of the recommended place.'),
       rating: z.number().describe('The rating of the recommended place.'),
-      imageUrl: z.string().describe('A URL of an image of the recommended place.'),
+      imageUrl: z.string().url().describe('A URL of an image of the recommended place. This should be a placeholder image from picsum.photos.'),
     })
   ).describe('A list of AI-powered recommendations based on the user preferences.'),
 });
@@ -47,7 +47,7 @@ const prompt = ai.definePrompt({
 
   Prioritize the recommendations based on popularity, user reviews, and relevance to the user's interests. Provide a variety of options to ensure a comprehensive and engaging experience for the user. The recommendations should be tailored to Sri Lanka.
 
-  Ensure that each recommendation includes the name, type, description, address, rating, and image URL of the recommended place. Return the recommendations as a JSON array.
+  Ensure that each recommendation includes the name, type, description, address, rating, and image URL of the recommended place. The image URL must be a valid placeholder image from picsum.photos, for example: https://picsum.photos/seed/1/600/400. Use a different seed for each image. Return the recommendations as a JSON array.
   Here are the user's details:
   - Latitude: {{latitude}}
   - Longitude: {{longitude}}
