@@ -28,7 +28,7 @@ const TourItineraryInputSchema = z.object({
 export type TourItineraryInput = z.infer<typeof TourItineraryInputSchema>;
 
 const TourItineraryOutputSchema = z.object({
-  itinerary: z.string().describe('A detailed tour itinerary for Sri Lanka.'),
+  itinerary: z.string().describe('A detailed tour itinerary for Sri Lanka formatted in Markdown.'),
 });
 export type TourItineraryOutput = z.infer<typeof TourItineraryOutputSchema>;
 
@@ -42,17 +42,26 @@ const prompt = ai.definePrompt({
   name: 'tourItineraryPrompt',
   input: {schema: TourItineraryInputSchema},
   output: {schema: TourItineraryOutputSchema},
-  prompt: `You are an expert travel agent specializing in Sri Lanka tours. Generate a personalized tour itinerary based on the user's preferences.
+  prompt: `You are an expert travel agent specializing in creating beautiful and engaging tours of Sri Lanka. Generate a personalized tour itinerary based on the user's preferences.
+
+Your response must be a well-structured and visually appealing travel plan. Use Markdown for formatting.
+
+- Use headings for each day (e.g., '### Day 1: Arrival in Colombo').
+- Use bullet points for activities, places to visit, and suggestions.
+- Use bold text to highlight key places or activities.
+- Write clear and concise descriptions for each point of interest.
+- Suggest accommodations and restaurants appropriate for the specified budget.
 
 Consider real-time data such as weather, traffic, and event schedules when creating the itinerary.
 
-Interests: {{{interests}}}
-Budget: {{{budget}}}
-Duration: {{{duration}}}
-Location Preferences: {{{locationPreferences}}}
-Travel Style: {{{travelStyle}}}
+**User Preferences:**
+- **Interests:** {{{interests}}}
+- **Budget:** {{{budget}}}
+- **Duration:** {{{duration}}}
+- **Location Preferences:** {{{locationPreferences}}}
+- **Travel Style:** {{{travelStyle}}}
 
-Provide a detailed itinerary including specific places to visit, activities, and estimated time for each activity. Suggest accommodations and restaurants appropriate for the specified budget.
+Generate a detailed and attractive itinerary following these instructions precisely.
 `,
 });
 
