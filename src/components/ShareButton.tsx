@@ -31,6 +31,11 @@ export function ShareButton({ shareText, shareUrl: customUrl }: ShareButtonProps
         });
       } catch (error) {
         console.error("Error sharing:", error);
+        toast({
+          variant: "destructive",
+          title: "Share Failed",
+          description: "Could not open the native share dialog. Please try again.",
+        });
       }
     }
   };
