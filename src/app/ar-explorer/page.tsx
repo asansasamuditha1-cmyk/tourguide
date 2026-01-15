@@ -2,21 +2,31 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { Info } from "lucide-react";
+import { Info, LoaderCircle, CameraOff } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CameraOff } from "lucide-react";
+import { useUser } from "@/firebase/auth/use-user";
+import { useRouter } from "next/navigation";
 
 export default function ARExplorerPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const { toast } = useToast();
+  const { user, loading } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login?redirect=/ar-explorer");
+    }
+  }, [user, loading, router]);
+  
+  useEffect(() => {
+    if (loading || !user) return;
+
     const getCameraPermission = async () => {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         console.error("Camera API not supported in this browser.");
@@ -48,7 +58,6 @@ export default function ARExplorerPage() {
 
     getCameraPermission();
     
-    // Cleanup function to stop video tracks when component unmounts
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject as MediaStream;
@@ -56,7 +65,15 @@ export default function ARExplorerPage() {
       }
     };
 
-  }, [toast]);
+  }, [toast, user, loading]);
+
+  if (loading || !user) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <LoaderCircle className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   const hotspots = [
     {

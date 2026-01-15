@@ -1,7 +1,30 @@
+
+"use client";
+
 import { SavedToursClient } from "@/components/my-tours/SavedToursClient";
-import { Suspense } from "react";
+import { useUser } from "@/firebase/auth/use-user";
+import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Suspense, useEffect } from "react";
 
 export default function MyToursPage() {
+  const { user, loading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login?redirect=/my-tours");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <LoaderCircle className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    );
+  }
+  
   return (
     <div className="space-y-8">
       <section className="text-center">
