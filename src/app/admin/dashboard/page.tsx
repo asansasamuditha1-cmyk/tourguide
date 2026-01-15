@@ -3,66 +3,77 @@
 
 import { useUser } from "@/firebase/auth/use-user";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, PlusCircle, Trash2, UserPlus } from "lucide-react";
+import { MoreHorizontal, UserPlus, Trash2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const placeholderUsers = [
-  {
-    id: "1",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-    lastSignIn: "2024-07-20T10:30:00Z",
-    isAdmin: true,
-  },
-  {
-    id: "2",
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-    lastSignIn: "2024-07-19T15:00:00Z",
-    isAdmin: false,
-  },
-  {
-    id: "3",
-    name: "Sam Wilson",
-    email: "sam.wilson@example.com",
-    avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-    lastSignIn: "2024-07-21T09:00:00Z",
-    isAdmin: false,
-  },
-  {
-    id: "4",
-    name: "Alice Johnson",
-    email: "alice.j@example.com",
-    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026705d",
-    lastSignIn: "2024-07-21T11:45:00Z",
-    isAdmin: true,
-  },
-];
+// Define a type for the user data we expect from our API
+type AppUser = {
+  uid: string;
+  email: string | undefined;
+  displayName: string | undefined;
+  photoURL: string | undefined;
+  metadata: {
+    lastSignInTime: string | undefined;
+  };
+  customClaims: { [key: string]: any } | undefined;
+};
 
 
 export default function AdminDashboardPage() {
-  const { user, loading } = useUser();
+  const { user, loading: authLoading } = useUser();
   const router = useRouter();
+  const [users, setUsers] = useState<AppUser[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       router.replace("/admin/login");
     }
-    // In a real app, you would also check for an admin custom claim here
-  }, [user, loading, router]);
+  }, [user, authLoading, router]);
+  
+  useEffect(() => {
+    if (user) {
+      // Fetch the users from our new API route
+      const fetchUsers = async () => {
+        setLoadingUsers(true);
+        try {
+          // We need to send the user's auth token to verify they are an admin
+          const token = await user.getIdToken();
+          const response = await fetch('/api/admin/users', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
 
-  if (loading || !user) {
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to fetch users.');
+          }
+
+          const data: AppUser[] = await response.json();
+          setUsers(data);
+        } catch (error) {
+          console.error(error);
+          // In a real app, you'd show a toast notification here
+        } finally {
+          setLoadingUsers(false);
+        }
+      };
+
+      fetchUsers();
+    }
+  }, [user]);
+
+  if (authLoading || !user) {
     return (
       <div className="flex justify-center items-center h-screen">
         <LoaderCircle className="h-12 w-12 animate-spin text-primary" />
@@ -75,6 +86,25 @@ export default function AdminDashboardPage() {
     return name.split(' ').map(n => n[0]).join('');
   };
   
+  const UserTableSkeleton = () => (
+    [...Array(5)].map((_, i) => (
+      <TableRow key={i}>
+        <TableCell>
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[150px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+          </div>
+        </TableCell>
+        <TableCell><Skeleton className="h-4 w-[120px]" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-[80px]" /></TableCell>
+        <TableCell className="text-right"><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
+      </TableRow>
+    ))
+  );
+
   return (
     <div className="space-y-8">
        <section>
@@ -107,48 +137,58 @@ export default function AdminDashboardPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {placeholderUsers.map((u) => (
-                        <TableRow key={u.id}>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Avatar>
-                                        <AvatarImage src={u.avatar} />
-                                        <AvatarFallback>{getInitials(u.name)}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <p className="font-medium">{u.name}</p>
-                                        <p className="text-sm text-muted-foreground">{u.email}</p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                            <TableCell>
-                                {new Date(u.lastSignIn).toLocaleString()}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center space-x-2">
-                                    <Switch id={`admin-switch-${u.id}`} checked={u.isAdmin} disabled />
-                                    <label htmlFor={`admin-switch-${u.id}`} className="text-sm font-medium">{u.isAdmin ? 'Admin' : 'User'}</label>
-                                </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                               <DropdownMenu>
-                                   <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon">
-                                            <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                   </DropdownMenuTrigger>
-                                   <DropdownMenuContent align="end">
-                                       <DropdownMenuItem disabled>
-                                           <Trash2 className="mr-2 h-4 w-4 text-destructive"/>
-                                           <span className="text-destructive">Delete User</span>
-                                       </DropdownMenuItem>
-                                   </DropdownMenuContent>
-                               </DropdownMenu>
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    {loadingUsers ? (
+                      <UserTableSkeleton />
+                    ) : (
+                      users.map((u) => {
+                        const isAdmin = u.customClaims?.isAdmin === true;
+                        return (
+                          <TableRow key={u.uid}>
+                              <TableCell>
+                                  <div className="flex items-center gap-4">
+                                      <Avatar>
+                                          <AvatarImage src={u.photoURL || undefined} />
+                                          <AvatarFallback>{getInitials(u.displayName)}</AvatarFallback>
+                                      </Avatar>
+                                      <div>
+                                          <p className="font-medium">{u.displayName || 'No Name'}</p>
+                                          <p className="text-sm text-muted-foreground">{u.email}</p>
+                                      </div>
+                                  </div>
+                              </TableCell>
+                              <TableCell>
+                                  {u.metadata.lastSignInTime ? new Date(u.metadata.lastSignInTime).toLocaleString() : 'Never'}
+                              </TableCell>
+                              <TableCell>
+                                  <div className="flex items-center space-x-2">
+                                      <Switch id={`admin-switch-${u.uid}`} checked={isAdmin} disabled />
+                                      <label htmlFor={`admin-switch-${u.uid}`} className="text-sm font-medium">{isAdmin ? 'Admin' : 'User'}</label>
+                                  </div>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                          <Button variant="ghost" size="icon">
+                                              <MoreHorizontal className="h-4 w-4" />
+                                          </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem disabled>
+                                            <Trash2 className="mr-2 h-4 w-4 text-destructive"/>
+                                            <span className="text-destructive">Delete User</span>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                              </TableCell>
+                          </TableRow>
+                        )
+                      })
+                    )}
                 </TableBody>
             </Table>
+             { !loadingUsers && users.length === 0 && (
+                <p className="text-center text-muted-foreground py-8">No users found.</p>
+             )}
         </CardContent>
       </Card>
 
