@@ -22,8 +22,7 @@ const TourItineraryInputSchema = z.object({
   travelStyle: z
     .string()
     .describe(
-      'Preferred travel style (e.g., relaxing, adventurous, cultural exploration).
-  ' + ' Examples: Relaxing beach vacation, Adventurous hiking trip, Cultural exploration of historical sites'
+      'Preferred travel style (e.g., relaxing, adventurous, cultural exploration). Examples: Relaxing beach vacation, Adventurous hiking trip, Cultural exploration of historical sites'
     ),
 });
 export type TourItineraryInput = z.infer<typeof TourItineraryInputSchema>;
