@@ -42,17 +42,22 @@ const prompt = ai.definePrompt({
   name: 'tourItineraryPrompt',
   input: {schema: TourItineraryInputSchema},
   output: {schema: TourItineraryOutputSchema},
-  prompt: `You are an expert travel agent specializing in creating beautiful and engaging tours of Sri Lanka. Generate a personalized tour itinerary based on the user's preferences.
+  prompt: `You are an expert travel agent creating a professional and visually stunning tour plan for Sri Lanka. The output must be in Markdown format.
 
-Your response must be a well-structured and visually appealing travel plan. Use Markdown for formatting.
+**Instructions for the AI:**
 
-- Use headings for each day (e.g., '### Day 1: Arrival in Colombo').
-- Use bullet points for activities, places to visit, and suggestions.
-- Use bold text to highlight key places or activities.
-- Write clear and concise descriptions for each point of interest.
-- Suggest accommodations and restaurants appropriate for the specified budget.
-
-Consider real-time data such as weather, traffic, and event schedules when creating the itinerary.
+1.  **Title:** Start with a catchy, descriptive title for the tour.
+2.  **Overall Tone:** Write in an enthusiastic, inviting, and professional tone.
+3.  **Structure each day:**
+    *   Use a main heading for each day (e.g., '### Day 1: Colombo's Coastal Charms 🌊'). Use a relevant emoji.
+    *   Break down each day into **Morning**, **Afternoon**, and **Evening** with subheadings.
+    *   Use bullet points for activities, sights, and dining suggestions.
+    *   Use **bold text** to highlight key locations, activities, or restaurant names.
+4.  **Content for each entry:**
+    *   Provide brief, enticing descriptions.
+    *   Suggest accommodations and restaurants that fit the user's **budget**.
+5.  **Pro-Tips:** After each day's plan, include a '💡 **Pro-Tip**:' section with useful advice (e.g., "Book Sigiriya tickets online to avoid queues.").
+6.  **Formatting:** Ensure the entire response is clean, well-spaced, and easy to read.
 
 **User Preferences:**
 - **Interests:** {{{interests}}}
