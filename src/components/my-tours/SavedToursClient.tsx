@@ -64,17 +64,17 @@ export function SavedToursClient() {
       <Accordion type="single" collapsible className="w-full">
         {savedTours.map((tour) => (
           <AccordionItem value={tour.id} key={tour.id}>
-            <AccordionTrigger className="hover:no-underline">
-                <div className="flex justify-between items-center w-full pr-4">
-                    <div className="text-left">
-                        <span className="font-semibold text-lg">{tour.title}</span>
-                        <p className="text-sm text-muted-foreground">Saved on {new Date(tour.id).toLocaleDateString()}</p>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); deleteTour(tour.id); }}>
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                </div>
-            </AccordionTrigger>
+            <div className="flex justify-between items-center w-full">
+              <AccordionTrigger className="hover:no-underline flex-grow pr-4">
+                  <div className="text-left">
+                      <span className="font-semibold text-lg">{tour.title}</span>
+                      <p className="text-sm text-muted-foreground">Saved on {new Date(tour.id).toLocaleDateString()}</p>
+                  </div>
+              </AccordionTrigger>
+              <Button variant="ghost" size="icon" onClick={() => deleteTour(tour.id)} className="mr-2 flex-shrink-0">
+                  <Trash2 className="h-4 w-4 text-destructive" />
+              </Button>
+            </div>
             <AccordionContent>
                 <div className="prose prose-sm max-w-none text-foreground whitespace-pre-wrap rounded-md bg-muted p-4">
                   {tour.itinerary.itinerary}
